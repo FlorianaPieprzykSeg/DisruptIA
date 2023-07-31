@@ -6,6 +6,7 @@
 - FrontEnd core
 - Users CRUD
 - Users authentication
+- Languages Settings 
 
 ## how to install
     run "npm i" in the terminal
