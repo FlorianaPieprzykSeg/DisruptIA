@@ -16,6 +16,7 @@ import ConfirmDialog from '../../../../components/confirm-dialog';
 import FileShareDialog from '../portal/FileShareDialog';
 import FileDetailsDrawer from '../portal/FileDetailsDrawer';
 import FileNewFolderDialog from '../portal/FileNewFolderDialog';
+import i18next from 'i18next';
 
 // ----------------------------------------------------------------------
 
@@ -226,7 +227,7 @@ export default function FileFolderCard({ folder, selected, onSelect, onDelete, s
           sx={{ color: 'error.main' }}
         >
           <Iconify icon="eva:trash-2-outline" />
-          Delete
+          {i18next.t('delete')}
         </MenuItem>
       </MenuPopover>
 
@@ -271,11 +272,11 @@ export default function FileFolderCard({ folder, selected, onSelect, onDelete, s
       <ConfirmDialog
         open={openConfirm}
         onClose={handleCloseConfirm}
-        title="Delete"
-        content="Are you sure want to delete?"
+        title={i18next.t('delete')}
+        content={i18next.t('deleteConfirmQuestionMark')}
         action={
           <Button variant="contained" color="error" onClick={onDelete}>
-            Delete
+            {i18next.t('delete')}
           </Button>
         }
       />

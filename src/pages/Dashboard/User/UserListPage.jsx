@@ -505,7 +505,7 @@ export default function UserListPage() {
                 )
               }
               action={
-                <Tooltip title="Delete">
+                <Tooltip title={i18next.t('delete')}>
                   <IconButton color="primary" onClick={handleOpenConfirm}>
                     <Iconify icon="eva:trash-2-outline" />
                   </IconButton>
@@ -573,12 +573,8 @@ export default function UserListPage() {
       <ConfirmDialog
         open={openConfirm}
         onClose={handleCloseConfirm}
-        title="Delete"
-        content={
-          <>
-            Are you sure want to delete <strong> {selected.length} </strong> items?
-          </>
-        }
+        title={i18next.t('delete')}
+        content={i18next.t('deleteConfirmQuestionMark')}
         action={
           <Button
             variant="contained"
@@ -588,7 +584,7 @@ export default function UserListPage() {
               handleCloseConfirm();
             }}
           >
-            Delete
+            {i18next.t('delete')}
           </Button>
         }
       />

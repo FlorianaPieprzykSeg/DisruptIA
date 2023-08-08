@@ -25,6 +25,7 @@ import FileThumbnail, { fileFormat } from '../../../../components/file-thumbnail
 //
 import FileShareDialog from './FileShareDialog';
 import FileInvitedItem from '../FileInvitedItem';
+import i18next from 'i18next';
 
 // ----------------------------------------------------------------------
 
@@ -217,7 +218,7 @@ export default function FileDetailsDrawer({
             startIcon={<Iconify icon="eva:trash-2-outline" />}
             onClick={onDelete}
           >
-            Delete
+            {i18next.t('delete')}
           </Button>
         </Box>
       </Drawer>

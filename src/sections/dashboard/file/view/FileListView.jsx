@@ -13,6 +13,7 @@ import {
 } from '../../../../components/table';
 //
 import FileTableRow from '../item/FileTableRow';
+import i18next from 'i18next';
 
 // ----------------------------------------------------------------------
 
@@ -82,7 +83,7 @@ export default function FileListView({
                 </IconButton>
               </Tooltip>
 
-              <Tooltip title="Delete">
+              <Tooltip title={i18next.t('delete')}>
                 <IconButton color="primary" onClick={onOpenConfirm}>
                   <Iconify icon="eva:trash-2-outline" />
                 </IconButton>

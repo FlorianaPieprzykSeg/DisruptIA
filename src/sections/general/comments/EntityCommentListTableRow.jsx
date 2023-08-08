@@ -199,11 +199,11 @@ export default function EntityCommentListTableRow({ isEdit, isCreate, isInList =
             <ConfirmDialog
                 open={openConfirm}
                 onClose={handleCloseConfirm}
-                title="Delete"
-                content="Are you sure want to delete?"
+                title={i18next.t('delete')}
+                content={i18next.t('deleteConfirmQuestionMark')}
                 action={
                     <Button variant="contained" color="error" onClick={handleCloseWithDelete}>
-                        Delete
+                        {i18next.t('delete')}
                     </Button>
                 }
             />

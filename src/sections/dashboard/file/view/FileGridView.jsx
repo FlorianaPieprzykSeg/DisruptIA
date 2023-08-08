@@ -11,6 +11,7 @@ import FileFolderCard from '../item/FileFolderCard';
 import FileShareDialog from '../portal/FileShareDialog';
 import FileActionSelected from '../portal/FileActionSelected';
 import FileNewFolderDialog from '../portal/FileNewFolderDialog';
+import i18next from 'i18next';
 
 // ----------------------------------------------------------------------
 
@@ -163,7 +164,7 @@ export default function FileGridView({ table, data, dataFiltered, onDeleteItem, 
                   onClick={onOpenConfirm}
                   sx={{ mr: 1 }}
                 >
-                  Delete
+                  {i18next.t('delete')}
                 </Button>
 
                 <Button

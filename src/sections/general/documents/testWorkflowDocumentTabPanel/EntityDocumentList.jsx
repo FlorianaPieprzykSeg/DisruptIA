@@ -232,7 +232,7 @@ export default function EntityDocumentList({ isEdit, isCreate = false, isInList 
                                 checked,
                                 tableData.map((row) => row.id)
                             )}
-                            action={<Tooltip title="Delete">
+                            action={<Tooltip title={i18next.t('delete')}>
                                 <IconButton color="primary" onClick={handleOpenConfirm}>
                                     <Iconify icon="eva:trash-2-outline" />
                                 </IconButton>
@@ -288,9 +288,9 @@ export default function EntityDocumentList({ isEdit, isCreate = false, isInList 
                 <ConfirmDialog
                     open={openConfirm}
                     onClose={handleCloseConfirm}
-                    title="Delete"
+                    title={i18next.t('delete')}
                     content={<>
-                        Are you sure want to delete <strong> {selected.length} </strong> items?
+                        {i18next.t('deleteConfirm')} <strong> {selected.length} </strong> {i18next.t('items')}
                     </>}
                     action={<Button
                         variant="contained"
@@ -299,7 +299,7 @@ export default function EntityDocumentList({ isEdit, isCreate = false, isInList 
                             handleDeleteRows(selected);
                         } }
                     >
-                        Delete
+                        {i18next.t('delete')}
                     </Button>} />
                 </>
         )}
