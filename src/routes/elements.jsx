@@ -16,8 +16,7 @@ const Loadable = (Component) => (props) =>
 // AUTH
 export const LoginPage = Loadable(lazy(() => import('../pages/auth/LoginPage')));
 // DASHBOARD: GENERAL
-// DANSHBOARD: USER
-
+// DASHBOARD: USER
 export const UserListPage = Loadable(lazy(() => import('../pages/Dashboard//User/UserListPage')));
 export const UserCreatePage = Loadable(lazy(() => import('../pages/Dashboard/User/UserCreatePage')));
 export const UserEditPage = Loadable(lazy(() => import('../pages/Dashboard/User/UserEditPage')));

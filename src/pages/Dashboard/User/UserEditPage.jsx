@@ -1,5 +1,5 @@
 
-import { paramCase } from 'change-case';
+
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 // @mui
@@ -12,7 +12,6 @@ import CustomBreadcrumbs from '../../../components/custom-breadcrumbs';
 // sections
 import UserNewEditForm from '../../../sections/dashboard/user/UserNewEditForm';
 // user services
-import { userService } from '../../../_services/user.service';
 import i18next from 'i18next';
 // ----------------------------------------------------------------------
 
@@ -31,7 +30,8 @@ export default function UserEditPage() {
     setCurrentUser({
       id: 1,
       cat: 'admin',
-      fullName: 'Segula Team',
+      firstName: 'Segula',
+      lastName: 'Team',
       username: 'Segula_Team',
       password: 'Segula_Team',
       email: 'Segula_Team@Segula.team',

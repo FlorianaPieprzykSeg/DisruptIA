@@ -33,7 +33,7 @@ UserTableRow.propTypes = {
 };
 
 export default function UserTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow,selectedColumns}) {
-  const { id, fullName, email, username, cat, createdAt, updatedAt, avatarUrl } = row;
+  const { id, firstName, lastName, email, username, cat, createdAt, updatedAt, avatarUrl } = row;
 
   const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -89,11 +89,20 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
             </Box>
           </TableCell>
         }
-        {selectedColumns.fullName &&
+        {selectedColumns.firstName &&
           <TableCell>
 
             <Typography>
-              {fullName}
+              {firstName}
+            </Typography>
+
+          </TableCell>
+        }
+        {selectedColumns.lastName &&
+          <TableCell>
+
+            <Typography>
+              {lastName}
             </Typography>
 
           </TableCell>

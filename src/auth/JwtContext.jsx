@@ -69,7 +69,8 @@ export function AuthProvider({ children }) {
     const user = {
       id: 1,
       cat: 'admin',
-      fullName: 'Segula Team',
+      firstName: 'Segula',
+      lastName: 'Team',
       username: 'Segula_Team',
       password: 'Segula_Team',
       email: 'Segula_Team@Segula.team',

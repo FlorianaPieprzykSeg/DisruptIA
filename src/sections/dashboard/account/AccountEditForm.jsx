@@ -16,7 +16,6 @@ import FormProvider, {
 } from '../../../components/hook-form';
 import i18next from 'i18next';
 import { CustomAvatar } from '../../../components/custom-avatar';
-import { userService } from '../../../_services/user.service';
 import Iconify from '../../../components/iconify/Iconify';
 
 // ----------------------------------------------------------------------
@@ -26,7 +25,7 @@ AccountEditForm.propTypes = {
 };
 
 export default function AccountEditForm({ currentUser }) {
-  const categories = ['admin', 'dirGeneral', "dirBranch", "dirDivision", "rbu"];
+  const categories = ['admin', 'dirGeneral', "dirBranch", "dirPole", "rbu"];
   const [ oldPasswordApiError, setOldPasswordApiError ] = useState(null);
   const [ passwordRepeatApiError, setPasswordRepeatApiError ] = useState(null);
   const navigate = useNavigate();
@@ -47,7 +46,8 @@ export default function AccountEditForm({ currentUser }) {
     () => ({
       username: currentUser?.username || '',
       email: currentUser?.email || '',
-      fullName: currentUser?.fullName || '',
+      firstName: currentUser?.firstName || '',
+      lastName: currentUser?.lastName || '',
       cat: currentUser?.cat || '',
     }),
     [currentUser]
@@ -132,7 +132,7 @@ export default function AccountEditForm({ currentUser }) {
             {currentUser?.cat == 'dirBranch' &&
               <CustomAvatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_23.jpg" sx={{height: '150px',width: '150px',}} />
             }
-            {currentUser?.cat == 'dirDivision' &&
+            {currentUser?.cat == 'dirPole' &&
               <CustomAvatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_24.jpg" sx={{height: '150px',width: '150px',}} />
             }
             {currentUser?.cat == 'rbu' &&
@@ -147,7 +147,12 @@ export default function AccountEditForm({ currentUser }) {
                 sm: 'repeat(2, 1fr)',
             }}
             >
-                <RHFTextField name="fullName" label={i18next.t('fullName')} InputLabelProps={{ shrink: true }} disabled sx={{
+                <RHFTextField name="firstName" label={i18next.t('firstName')} InputLabelProps={{ shrink: true }} disabled sx={{
+                    backgroundColor: 'rgba(211, 211, 211, 0.5)', // Set the grey background color
+                    borderRadius: '8px'
+                    }}
+                />
+                <RHFTextField name="lastName" label={i18next.t('lastName')} InputLabelProps={{ shrink: true }} disabled sx={{
                     backgroundColor: 'rgba(211, 211, 211, 0.5)', // Set the grey background color
                     borderRadius: '8px'
                     }}
@@ -174,6 +179,10 @@ export default function AccountEditForm({ currentUser }) {
                     </option>
                     ))}
                 </RHFSelect>
+                <Grid item xs={12} sm={6}>
+                    {/* Add the placeholder div */}
+                    <div></div>
+                </Grid>
                 <RHFTextField 
                     name="oldPassword" 
                     label={i18next.t('oldPassword')}

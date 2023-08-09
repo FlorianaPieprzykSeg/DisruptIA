@@ -6,7 +6,6 @@ import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
 import { useSettingsContext } from '../../../components/settings';
 import CustomBreadcrumbs from '../../../components/custom-breadcrumbs';
-// sections
 import UserNewEditForm from '../../../sections/dashboard/user/UserNewEditForm';
 import i18next from 'i18next';
 

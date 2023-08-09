@@ -1,27 +1,21 @@
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 // form
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { LoadingButton } from '@mui/lab';
-import { Box, Card, Grid, Stack, Switch, Typography, FormControlLabel, InputAdornment, IconButton, Button } from '@mui/material';
-// utils
-import { fData } from '../../../utils/formatNumber';
+import { Box, Card, Grid, Stack, InputAdornment, IconButton, Button } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
-import Label from '../../../components/label';
 import { useSnackbar } from '../../../components/snackbar';
 import FormProvider, {
   RHFAutocomplete,
-  RHFSelect,
   RHFTextField,
 } from '../../../components/hook-form';
-// user services
-import { userService } from '../../../_services/user.service';
 import i18next from 'i18next';
 import Iconify from '../../../components/iconify/Iconify';
 
@@ -33,7 +27,7 @@ UserNewEditForm.propTypes = {
 };
 
 export default function UserNewEditForm({ isEdit = false, currentUser }) {
-  const categories = ['admin','dirGeneral','dirBranch','dirDivision','rbu'];
+  const categories = ['admin','dirGeneral','dirBranch','dirPole','rbu'];
   const [ usernameApiError, setUsernameApiError ] = useState(null);
   const [ passwordRepeatApiError, setPasswordRepeatApiError ] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -48,13 +42,15 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
     ? Yup.object().shape({    
       username: Yup.string().required(i18next.t('usernameError')),
       email: Yup.string().email(i18next.t('emailFormatError')).required(i18next.t('emailMissingError')),
-      fullName: Yup.string().required(i18next.t('fullNameError')),
+      firstName: Yup.string().required(i18next.t('firstNameError')),
+      lastName: Yup.string().required(i18next.t('lastNameError')),
       cat: Yup.string().required(i18next.t('catError')),
     })
     : Yup.object().shape({    
         username: Yup.string().required(i18next.t('usernameError')),
         email: Yup.string().email(i18next.t('emailFormatError')).required(i18next.t('emailMissingError')),
-        fullName: Yup.string().required(i18next.t('fullNameError')),
+        firstName: Yup.string().required(i18next.t('firstNameError')),
+        lastName: Yup.string().required(i18next.t('lastNameError')),
         cat: Yup.string().required(i18next.t('catError')),
         password: Yup.string().required(i18next.t('passwordError')),
         passwordRepeat: Yup.string().required(i18next.t('passwordAgainError')),
@@ -64,7 +60,8 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
     () => ({
       username: currentUser?.username || '',
       email: currentUser?.email || '',
-      fullName: currentUser?.fullName || '',
+      firstName: currentUser?.firstName || '',
+      lastName: currentUser?.lastName || '',
       cat: currentUser?.cat || '',
       password: currentUser?.password || '',
       passwordRepeat: currentUser?.passwordRepeat || '',
@@ -160,8 +157,13 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
                 {/* Add the placeholder div */}
                 <div></div>
               </Grid>
-              <RHFTextField name="fullName" label={i18next.t('fullName')} />
+              <RHFTextField name="firstName" label={i18next.t('firstName')} />
+              <RHFTextField name="lastName" label={i18next.t('lastName')} />
               <RHFTextField name="email" label={i18next.t('email')} />
+              <Grid item xs={12} sm={6}>
+                {/* Add the placeholder div */}
+                <div></div>
+              </Grid>
               <RHFTextField 
                 name="username" 
                 label={i18next.t('username')} 

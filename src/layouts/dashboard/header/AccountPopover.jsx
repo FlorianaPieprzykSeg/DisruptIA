@@ -78,26 +78,26 @@ export default function AccountPopover() {
         }}
       >
         {user?.cat == 'admin' &&
-          <CustomAvatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_11.jpg" alt={user?.username} name={user?.fullName} />
+          <CustomAvatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_11.jpg" alt={user?.username} name={user?.firstName + ' ' + user.lastName} />
         }
         {user?.cat == 'dirGeneral' &&
-          <CustomAvatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_18.jpg" alt={user?.username} name={user?.fullName} />
+          <CustomAvatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_18.jpg" alt={user?.username} name={user?.firstName + ' ' + user.lastName} />
         }
         {user?.cat == 'dirBranch' &&
-          <CustomAvatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_23.jpg" alt={user?.username} name={user?.fullName} />
+          <CustomAvatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_23.jpg" alt={user?.username} name={user?.firstName + ' ' + user.lastName} />
         }
         {user?.cat == 'dirDivision' &&
-          <CustomAvatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_24.jpg" alt={user?.username} name={user?.fullName} />
+          <CustomAvatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_24.jpg" alt={user?.username} name={user?.firstName + ' ' + user.lastName} />
         }
         {user?.cat == 'rbu' &&
-          <CustomAvatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_2.jpg" alt={user?.username} name={user?.fullName} />
+          <CustomAvatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_2.jpg" alt={user?.username} name={user?.firstName + ' ' + user.lastName} />
         }
       </IconButtonAnimate>
 
       <MenuPopover open={openPopover} onClose={handleClosePopover} sx={{ width: 200, p: 0 }}>
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {user?.fullName}
+            {user?.firstName + ' ' + user.lastName}
           </Typography>
 
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>

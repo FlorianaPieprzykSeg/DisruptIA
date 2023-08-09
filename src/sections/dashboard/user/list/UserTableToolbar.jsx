@@ -93,7 +93,7 @@ export default function UserTableToolbar({
           onClick={onResetFilter}
           startIcon={<Iconify icon="eva:trash-2-outline" />}
         >
-          Clear
+          {i18next.t('clear')}
         </Button>
       )}
     </Stack>

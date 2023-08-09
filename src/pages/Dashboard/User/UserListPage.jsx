@@ -47,6 +47,7 @@ import { AnalyticsCount } from '../../../sections/general/analytics';
 import { DialogColumns } from '../../../components/segula-components';
 import { useAuthContext } from '../../../auth/useAuthContext';
 import { getConfigColumnFromList, setConfigColumnFromList } from '../../../utils/userTools';
+import LoadingScreen from '../../../components/loading-screen/LoadingScreen';
 
 // ----------------------------------------------------------------------
 const LIST_ID = 'user';
@@ -58,14 +59,15 @@ const ROLE_OPTIONS = [
   'admin',
   'dirGeneral',
   'dirBranch',
-  'dirDivision',
+  'dirPole',
   'rbu'
 ];
 
 const TABLE_HEAD = [
   { id: 'id', label: i18next.t('id'), align: 'left' },
   { id: 'cat', label: i18next.t('cat'), align: 'left' },
-  { id: 'fullName', label: i18next.t('fullName'), align: 'left' },
+  { id: 'firstName', label: i18next.t('firstName'), align: 'left' },
+  { id: 'lastName', label: i18next.t('lastName'), align: 'left' },
   { id: 'username', label: i18next.t('username'), align: 'left' },
   { id: 'email', label: i18next.t('email'), align: 'left' },
   { id: 'createdAt', label: i18next.t('createdAt'), align: 'left' },
@@ -73,14 +75,15 @@ const TABLE_HEAD = [
   { id: 'actions' , label: ''},
 ];
 
-const excelTableHead = [i18next.t('id'), i18next.t('cat'), i18next.t('fullName'), i18next.t('username'), i18next.t('email'), i18next.t('createdAt'), i18next.t('updatedAt'), ' ']
+const excelTableHead = [i18next.t('id'), i18next.t('cat'), i18next.t('firstName'), i18next.t('lastName'), i18next.t('username'), i18next.t('email'), i18next.t('createdAt'), i18next.t('updatedAt'), ' ']
 const excelFileName = i18next.t('excelName')
 
 const usersInitial = [
   {
     id: 1,
     cat: 'admin',
-    fullName: 'Segula Team',
+    firstName: 'Segula',
+    lastName: 'Team',
     username: 'Segula_Team',
     password: 'Segula_Team',
     email: 'Segula_Team@Segula.team',
@@ -90,7 +93,8 @@ const usersInitial = [
   {
     id: 2,
     cat: 'dirGeneral',
-    fullName: 'Director General',
+    firstName: 'Director',
+    lastName: 'General',
     username: 'director_General',
     password: 'director_General',
     email: 'director_General@director.general',
@@ -100,7 +104,8 @@ const usersInitial = [
   {
     id: 4,
     cat: 'dirBranch',
-    fullName: 'Director Branch',
+    firstName: 'Director',
+    lastName: 'Branch',
     username: 'director_Branch',
     password: 'director_Branch',
     email: 'director_Branch@director.branch',
@@ -109,18 +114,20 @@ const usersInitial = [
   },
   {
     id: 5,
-    cat: 'dirDivision',
-    fullName: 'Director Division',
-    username: 'director_Division',
-    password: 'director_Division',
-    email: 'director_Division@director.division',
+    cat: 'dirPole',
+    firstName: 'Director',
+    lastName: 'Pole',
+    username: 'director_Pole',
+    password: 'director_Pole',
+    email: 'director_Pole@director.pole',
     createdAt: '2022-08-23T16:50:22-07:00',
     updatedAt: '2022-08-23T16:50:22-07:00'
   },
   {
     id: 6,
     cat: 'rbu',
-    fullName: 'RBU',
+    firstName: 'RBU',
+    lastName: 'RBU',
     username: 'rbu',
     password: 'rbu',
     email: 'rbu@rbu.rbu',
@@ -144,7 +151,8 @@ export default function UserListPage() {
   const [seriesKpiTotal, setSeriesKPITotal] = useState(0);
   const [users, setUsers] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState(columnConfig);
-  const [isShowColumnFilter, setIsShowColumnFilter] = useState(false)
+  const [isShowColumnFilter, setIsShowColumnFilter] = useState(false);
+  const [showLoading, setShowLoading] = useState(true);
   const [avatarUrl, setAvatarUrl] = useState('');
 
   const handleSwitchAvatarUrl = (cat)=> {
@@ -158,7 +166,7 @@ export default function UserListPage() {
       case "dirBranch":
         return("https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_23.jpg");
         break;
-      case "dirDivision":
+      case "dirPole":
         return("https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_24.jpg");
         break;
       case "rbu":
@@ -173,7 +181,7 @@ export default function UserListPage() {
 
   useEffect(() => {
     const _resData = usersInitial.map(
-      ({ id, cat,fullName, username,email,createdAt,updatedAt,avatarUrl }) => ({ id, cat:i18next.t(cat),fullName, username,email,createdAt:fDate(createdAt),updatedAt:fDate(updatedAt),avatarUrl:handleSwitchAvatarUrl(cat)}));
+      ({ id, cat, firstName, lastName, username,email,createdAt,updatedAt,avatarUrl }) => ({ id, cat:i18next.t(cat), firstName, lastName, username,email,createdAt:fDate(createdAt),updatedAt:fDate(updatedAt),avatarUrl:handleSwitchAvatarUrl(cat)}));
     setTableData(_resData);
     const excelData = _resData.map(obj => {
       const { [Object.keys(obj).pop()]: prop, ...rest } = obj;
@@ -188,7 +196,7 @@ export default function UserListPage() {
         {cat: 'admin', count: 1},
         {cat: 'dirGeneral', count: 1},
         {cat: 'dirBranch', count: 1},
-        {cat: 'dirDivision', count: 1},
+        {cat: 'dirPole', count: 1},
         {cat: 'rbu', count: 1}
       ]
     }
@@ -201,7 +209,7 @@ export default function UserListPage() {
         res => {
             handleSwitchAvatarUrl(res.data.cat)
             const _resData = res.data.map(
-              ({ id, cat,fullName, username,email,createdAt,updatedAt,avatarUrl }) => ({ id, cat:i18next.t(cat.toLowerCase()),fullName, username,email,createdAt:fDate(createdAt),updatedAt:fDate(updatedAt),avatarUrl:handleSwitchAvatarUrl(cat)}));
+              ({ id, cat, firstName, laastName, username,email,createdAt,updatedAt,avatarUrl }) => ({ id, cat:i18next.t(cat.toLowerCase()), firstName, laastName, username,email,createdAt:fDate(createdAt),updatedAt:fDate(updatedAt),avatarUrl:handleSwitchAvatarUrl(cat)}));
             setTableData(_resData);
             const excelData = _resData.map(obj => {
               const { [Object.keys(obj).pop()]: prop, ...rest } = obj;
@@ -226,7 +234,13 @@ export default function UserListPage() {
         console.log(err);
     })*/
 
-}, [])
+  }, []);
+
+  useEffect(() => {
+    if(tableData.length > 0) {
+      setShowLoading(false);
+    }
+  }, [tableData]);
 
   const {
     dense,
@@ -391,7 +405,7 @@ export default function UserListPage() {
 
   return (
     <>
-
+      <LoadingScreen isLoading={showLoading}/>
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <CustomBreadcrumbs
           heading={i18next.t('usersList')}
@@ -574,7 +588,11 @@ export default function UserListPage() {
         open={openConfirm}
         onClose={handleCloseConfirm}
         title={i18next.t('delete')}
-        content={i18next.t('deleteConfirmQuestionMark')}
+        content={
+          <>
+            {i18next.t('deleteConfirm')} <strong> {selected.length} </strong> {i18next.t('items')}
+          </>
+        }
         action={
           <Button
             variant="contained"
@@ -612,7 +630,8 @@ function applyFilter({ inputData, comparator, filterSearch, filterRole, filterFi
         let email = (user.email)?user.email:'';
         return user.id.toString().indexOf(filterSearch) !== -1 ||
         user.cat.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
-        user.fullName.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        user.firstName.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        user.lastName.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
         user.username.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
         email.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
         fDate(user.createdAt).toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
