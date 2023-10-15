@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 // form
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField, useTheme } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -28,6 +28,7 @@ export default function RHFAutocomplete({ name, label, options, shouldGetId, get
   const getValueFromOptions = (value) => {
     return options.find((option) => option.value === value) ?? null;
   };
+  const theme = useTheme();
 
   return (
     <Controller
@@ -67,7 +68,7 @@ export default function RHFAutocomplete({ name, label, options, shouldGetId, get
             <TextField
               {...params}
               sx={{
-                backgroundColor: disabled ? 'rgba(211, 211, 211, 0.5)' : 'transparent', // Set the grey background color
+                backgroundColor: disabled ? theme.palette.action.disabledBackground : 'transparent', // Set the grey background color
                 borderRadius: disabled ? 1 : 0
               }}
               label={label}

@@ -25,7 +25,7 @@ AccountEditForm.propTypes = {
 };
 
 export default function AccountEditForm({ currentUser }) {
-  const categories = ['admin', 'dirGeneral', "dirBranch", "dirPole", "rbu"];
+  const categories = ['admin', 'dirGeneral', "dirBranch", "dirDivision", "rbu"];
   const [ oldPasswordApiError, setOldPasswordApiError ] = useState(null);
   const [ passwordRepeatApiError, setPasswordRepeatApiError ] = useState(null);
   const navigate = useNavigate();
@@ -132,7 +132,7 @@ export default function AccountEditForm({ currentUser }) {
             {currentUser?.cat == 'dirBranch' &&
               <CustomAvatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_23.jpg" sx={{height: '150px',width: '150px',}} />
             }
-            {currentUser?.cat == 'dirPole' &&
+            {currentUser?.cat == 'dirDivision' &&
               <CustomAvatar src="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_24.jpg" sx={{height: '150px',width: '150px',}} />
             }
             {currentUser?.cat == 'rbu' &&

@@ -11,8 +11,8 @@ const icon = (name) => (
 
 const ICONS = {
   dashboard: icon('ic_dashboard'),
-  newElement1: icon('ic_file'),
-  newElement2: icon('ic_file'),
+  aor: icon('ic_file'),
+  database: icon('ic_file'),
   user: icon('ic_user'),
 };
 
@@ -25,26 +25,18 @@ const navConfig = [
       { title: 'dashboard', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
       // New Element
       {
-        title: 'new Element 1',
-        path: PATH_DASHBOARD.newElement1.list,
-        icon: ICONS.newElement1,
-      }
-    ],
-  },
-  // MANAGEMENT
-  // ----------------------------------------------------------------------
-  {
-    subheader: 'management',
-    items: [
-      // New Element
+        title: 'appels d\'offres',
+        path: PATH_DASHBOARD.aor.list,
+        icon: ICONS.aor,
+      },
       {
-        title: 'new Element 2',
-        path: PATH_DASHBOARD.newElement2.list,
-        icon: ICONS.newElement2,
+        title: 'Base de données',
+        path: PATH_DASHBOARD.database.list,
+        icon: ICONS.database,
       }
     ],
   },
-    // Settings
+  // Settings
   // ----------------------------------------------------------------------
   {
     subheader: 'settings',

@@ -26,7 +26,7 @@ export default function UploadLayout({isEdit, handleOpenUploadFile, field, count
         }
       });
     }
-    if(documents) {
+    if(documents && documents.length > 0) {
       documents.map((doc) => {
         if((field && (field == doc.linkedEntityField || field == doc.field)) || !field) { 
           countDocValue += 1;
@@ -34,9 +34,10 @@ export default function UploadLayout({isEdit, handleOpenUploadFile, field, count
       });
       setCountDocWithDocuments(countDocValue);
     } else {
+      console.log(countDoc)
       setCountDocWithDocuments(countDoc);
     }
-  }, [documents, documentsWithoutId]);
+  }, [documents, documentsWithoutId, countDoc]);
 
 
   return (
@@ -71,7 +72,7 @@ export default function UploadLayout({isEdit, handleOpenUploadFile, field, count
         > 
         {justTheField ? (
           <>
-          <Badge badgeContent={countDocWithDocuments} color="error" sx={{ width: '100%', marginTop: 1 }}>
+          <Badge badgeContent={countDocWithDocuments} color="error" sx={{ width: '100%', marginTop: 1 }} showZero>
             {title ? (
               <Button sx={{ height: '55px', backgroundColor: (!disabled)?'white':'background.neutral'}}
                 fullWidth={true}

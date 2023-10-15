@@ -14,6 +14,12 @@ import DashboardLayout from '../layouts/dashboard/DashboardLayout';
 import GuestGuard from '../auth/GuestGuard';
 import AuthGuard from '../auth/AuthGuard';
 import UserAccountEditPage from '../pages/Dashboard/Account/UserAccountEditPage';
+import DatabaseListPage from '../pages/Dashboard/Database/DatabaseListPage';
+import DatabaseCreatePage from '../pages/Dashboard/Database/DatabaseCreatePage';
+import DatabaseEditPage from '../pages/Dashboard/Database/DatabaseEditPage';
+import AorListPage from '../pages/Dashboard/Aor/AorListPage';
+import AorCreatePage from '../pages/Dashboard/Aor/AorCreatePage';
+import AorEditPage from '../pages/Dashboard/Aor/AorEditPage';
 export default function Router() {
     return useRoutes([
         // Landing Page
@@ -54,6 +60,24 @@ export default function Router() {
                 { path: 'account', element: <UserAccountEditPage /> },
                 { element: <Navigate to={PATH_AFTER_LOGIN} replace={true} />, index: true },
                 { path: 'app', element: <GeneralAppPage /> },
+                {
+                    path: 'aor',
+                    children: [
+                        { element: <Navigate to="/dashboard/aor/list" replace />, index: true },
+                        { path: 'list', element: <AorListPage /> },
+                        { path: 'new', element: <AorCreatePage /> },
+                        { path: ':name/edit', element: <AorEditPage /> }
+                    ],
+                },
+                {
+                    path: 'database',
+                    children: [
+                        { element: <Navigate to="/dashboard/database/list" replace />, index: true },
+                        { path: 'list', element: <DatabaseListPage /> },
+                        { path: 'new', element: <DatabaseCreatePage /> },
+                        { path: ':name/edit', element: <DatabaseEditPage /> }
+                    ],
+                },
                 {
                     path: 'user',
                     children: [

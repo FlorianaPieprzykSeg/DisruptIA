@@ -24,7 +24,6 @@ import { PATH_DASHBOARD } from '../../../routes/paths';
 
 // components
 import Iconify from '../../../components/iconify';
-import Scrollbar from '../../../components/scrollbar';
 import ConfirmDialog from '../../../components/confirm-dialog';
 import CustomBreadcrumbs from '../../../components/custom-breadcrumbs';
 import { useSettingsContext } from '../../../components/settings';
@@ -39,7 +38,7 @@ import {
   TablePaginationCustom,
 } from '../../../components/table';
 // sections
-import { UserTableToolbar, UserTableRow } from '../../../sections/dashboard/user/list';
+import { AorTableToolbar, AorTableRow } from '../../../sections/dashboard/aor/list';
 import { fDate } from '../../../utils/formatTime';
 import i18next from 'i18next';
 import { Stack } from '@mui/system';
@@ -48,89 +47,220 @@ import { DialogColumns } from '../../../components/segula-components';
 import { useAuthContext } from '../../../auth/useAuthContext';
 import { getConfigColumnFromList, setConfigColumnFromList } from '../../../utils/userTools';
 import LoadingScreen from '../../../components/loading-screen/LoadingScreen';
+import Scrollbar from '../../../components/scrollbar/Scrollbar';
 
 // ----------------------------------------------------------------------
-const LIST_ID = 'user';
+const LIST_ID = 'aor';
 
 const STATUS_OPTIONS = ['all'];
 
 const ROLE_OPTIONS = [
-  'all',
-  'admin',
-  'dirGeneral',
-  'dirBranch',
-  'dirDivision',
-  'rbu'
+  'all'
 ];
 
 const TABLE_HEAD = [
   { id: 'id', label: i18next.t('id'), align: 'left' },
+  { id: 'lib', label: "Libellé", align: 'left' },
+  { id: 'type', label: "Type", align: 'left' },
+  { id: 'statut', label: "Statut", align: 'left' },
+  { id: 'customer', label: "Client", align: 'left' },
+  { id: 'sector', label: "Secteur", align: 'left' },
   { id: 'cat', label: i18next.t('cat'), align: 'left' },
-  { id: 'firstName', label: i18next.t('firstName'), align: 'left' },
-  { id: 'lastName', label: i18next.t('lastName'), align: 'left' },
-  { id: 'username', label: i18next.t('username'), align: 'left' },
-  { id: 'email', label: i18next.t('email'), align: 'left' },
+  { id: 'localisation', label: "Localisation", align: 'left' },
+  { id: 'skills', label: "Compétences", align: 'left' },
+  { id: 'tjm', label: "TJM", align: 'left' },
+  { id: 'echeance', label: "Date cible", align: 'left' },
+  { id: 'duree', label: "Durée", align: 'left' },
+  { id: 'proba', label: "Probabilité de gain", align: 'left' },
+  { id: 'referent', label: "Referent Interne", align: 'left' },
+  { id: 'referentCustomer', label: "Contact Client", align: 'left' },
+  { id: 'docs', label: "Pièces Jointes", align: 'left' },
   { id: 'createdAt', label: i18next.t('createdAt'), align: 'left' },
   { id: 'updatedAt', label: i18next.t('updatedAt'), align: 'left' },
-  { id: 'actions' , label: ''},
+  { id: '', label: ''},
 ];
 
 const excelTableHead = [i18next.t('id'), i18next.t('cat'), i18next.t('firstName'), i18next.t('lastName'), i18next.t('username'), i18next.t('email'), i18next.t('createdAt'), i18next.t('updatedAt'), ' ']
 const excelFileName = i18next.t('excelName')
 
-const usersInitial = [
+const aorsInitial = [
   {
     id: 1,
-    cat: 'admin',
-    firstName: 'Segula',
-    lastName: 'Team',
-    username: 'Segula_Team',
-    password: 'Segula_Team',
-    email: 'Segula_Team@Segula.team',
+    lib: 'Managements des tests de roulage',
+    type: 'AT',
+    customer: 'Stellantis',
+    sector: 'Automobile',
+    cat: 'Developpement Software',
+    localisation: 'Trappes',
+    tjm: '420',
+    referent: 'Pierre Guizard',
+    referentCustomer: 'Nancy DuPont',
+    proba: 50,
+    statut: 'Accepté',
+    echeance: '2022-08-23T16:50:22-07:00',
+    duree: 30,
     createdAt: '2022-08-23T16:50:22-07:00',
     updatedAt: '2022-08-23T16:50:22-07:00'
   },
   {
-    id: 2,
-    cat: 'dirGeneral',
-    firstName: 'Director',
-    lastName: 'General',
-    username: 'director_General',
-    password: 'director_General',
-    email: 'director_General@director.general',
+    id:2,
+    lib: 'Fonctionnement Conteneur Odorisation Gaz',
+    type: 'WP',
+    customer: 'GRDF',
+    sector: 'Energie',
+    cat: 'Developpement Software / réalité augmentée / Developpement iOS',
+    localisation: 'Trappes',
+    tjm: 'NA',
+    referent: 'Aurélie FORT',
+    referentCustomer: 'Emilie BAILLART',
+    proba: 42,
+    statut: 'Accepté',
+    duree: 'NA',
+    echeance: '2022-08-23T16:50:22-07:00',
+    createdAt: '2022-08-23T16:50:22-07:00',
+    updatedAt: '2022-08-23T16:50:22-07:00'
+  },
+  {
+    id: 3,
+    lib: 'PO Digital',
+    type: 'AT',
+    customer: 'Renault',
+    sector: 'Automobile',
+    cat: 'Product Owner / chef de projet / digital',
+    localisation: 'Guyancourt',
+    tjm: '450',
+    referent: 'Florence BEAUFRERE',
+    referentCustomer: 'Phillipe BELTRADE',
+    proba: 68,
+    statut: 'Accepté',
+    duree: 90,
+    echeance: '2022-08-23T16:50:22-07:00',
     createdAt: '2022-08-23T16:50:22-07:00',
     updatedAt: '2022-08-23T16:50:22-07:00'
   },
   {
     id: 4,
-    cat: 'dirBranch',
-    firstName: 'Director',
-    lastName: 'Branch',
-    username: 'director_Branch',
-    password: 'director_Branch',
-    email: 'director_Branch@director.branch',
+    lib: 'Formateur sureté de fonctionnement',
+    type: 'AT',
+    customer: 'Stellantis',
+    sector: 'Automobile',
+    cat: 'SDF / formation',
+    localisation: 'Velizy',
+    tjm: '400',
+    referent: 'Florence BEAUFRERE',
+    referentCustomer: 'David DUVAL',
+    proba: 15,
+    statut: 'Refusé',
+    duree: 30,
+    echeance: '2022-08-23T16:50:22-07:00',
     createdAt: '2022-08-23T16:50:22-07:00',
     updatedAt: '2022-08-23T16:50:22-07:00'
   },
   {
     id: 5,
-    cat: 'dirDivision',
-    firstName: 'Director',
-    lastName: 'Pole',
-    username: 'director_Pole',
-    password: 'director_Pole',
-    email: 'director_Pole@director.pole',
+    lib: 'Visualisation des produits de la société en numérique',
+    type: 'WP',
+    customer: 'Mirion',
+    sector: 'Nucléaire',
+    cat: 'Developpement Software / 3D / Developpement iOS',
+    localisation: 'Trappes',
+    tjm: 'NA',
+    referent: 'Aurélie FORT',
+    referentCustomer: 'Frederic FORGASSE',
+    proba: 37,
+    statut: 'Accepté',
+    duree: 'NA',
+    echeance: '2022-08-23T16:50:22-07:00',
     createdAt: '2022-08-23T16:50:22-07:00',
     updatedAt: '2022-08-23T16:50:22-07:00'
   },
   {
     id: 6,
-    cat: 'rbu',
-    firstName: 'RBU',
-    lastName: 'RBU',
-    username: 'rbu',
-    password: 'rbu',
-    email: 'rbu@rbu.rbu',
+    lib: 'Retrofit projet ST458',
+    type: 'WP',
+    customer: 'Mercedes',
+    sector: 'Automobile',
+    cat: 'mécanique / automobile / electronique / IHM / batterie',
+    localisation: 'Trappes',
+    tjm: 'NA',
+    referent: 'Julien FOUTH',
+    referentCustomer: 'Christian CURIOZO',
+    proba: 81,
+    statut: 'Accepté',
+    duree: 'NA',
+    echeance: '2022-08-23T16:50:22-07:00',
+    createdAt: '2022-08-23T16:50:22-07:00',
+    updatedAt: '2022-08-23T16:50:22-07:00'
+  },
+  {
+    id: 7,
+    lib: 'Developpeur C++',
+    type: 'AT',
+    customer: 'Valeo',
+    sector: 'Automobile',
+    cat: 'Developpement Software ',
+    localisation: 'Rambouillet',
+    tjm: '380',
+    referent: 'Pierre GUIZARD',
+    referentCustomer: 'Clément PERARE',
+    proba: 41,
+    statut: 'Accepté',
+    duree: 150,
+    echeance: '2022-08-23T16:50:22-07:00',
+    createdAt: '2022-08-23T16:50:22-07:00',
+    updatedAt: '2022-08-23T16:50:22-07:00'
+  },
+  {
+    id: 8,
+    lib: 'Trains Connectés',
+    type: 'WP',
+    customer: 'SNCF',
+    sector: 'Ferroviere',
+    cat: 'Developpement Software / Developpement embarqué / electronique',
+    localisation: 'Trappes',
+    tjm: 'NA',
+    referent: 'ADAM HOUENOU',
+    referentCustomer: 'Lara CROFT',
+    proba: 29,
+    statut: 'Accepté',
+    duree: 'NA',
+    echeance: '2022-08-23T16:50:22-07:00',
+    createdAt: '2022-08-23T16:50:22-07:00',
+    updatedAt: '2022-08-23T16:50:22-07:00'
+  },
+  {
+    id: 9,
+    lib: 'Rédaction de CDC',
+    type: 'AT',
+    customer: 'Aiirbus',
+    sector: 'Aeronautique',
+    cat: 'Developpement Embarqué / Ux',
+    localisation: 'Saint Nazaire',
+    tjm: '400',
+    referent: 'Florence BEAUFRERE',
+    referentCustomer: 'Jade ECLAES',
+    proba: 91,
+    statut: 'Accepté',
+    duree: 30,
+    echeance: '2022-08-23T16:50:22-07:00',
+    createdAt: '2022-08-23T16:50:22-07:00',
+    updatedAt: '2022-08-23T16:50:22-07:00'
+  },
+  {
+    id: 10,
+    lib: 'Mise en place d\'une Software Facrory',
+    type: 'WP',
+    customer: 'Thales',
+    sector: 'Armement',
+    cat: 'Developpement Software',
+    localisation: 'Trappes',
+    tjm: 'NA',
+    referent: 'Aurélie FORT',
+    referentCustomer: 'Jonathan FRICSOR',
+    proba: 59,
+    statut: 'Accepté',
+    duree: 'NA',
+    echeance: '2022-08-23T16:50:22-07:00',
     createdAt: '2022-08-23T16:50:22-07:00',
     updatedAt: '2022-08-23T16:50:22-07:00'
   },
@@ -138,7 +268,7 @@ const usersInitial = [
 
 // ----------------------------------------------------------------------
 
-export default function UserListPage() {
+export default function RaoListPage() {
 
   const { user } = useAuthContext();
 
@@ -149,39 +279,15 @@ export default function UserListPage() {
   const [exportData, setExportData] = useState([]);
   const [seriesKpi, setSeriesKPI] = useState([]);
   const [seriesKpiTotal, setSeriesKPITotal] = useState(0);
-  const [users, setUsers] = useState([]);
+  const [aors, setAors] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState(columnConfig);
   const [isShowColumnFilter, setIsShowColumnFilter] = useState(false);
   const [showLoading, setShowLoading] = useState(true);
-  const [avatarUrl, setAvatarUrl] = useState('');
-
-  const handleSwitchAvatarUrl = (cat)=> {
-    switch(cat) {
-      case "admin":
-        return("https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_11.jpg");
-        break;
-      case "dirGeneral":
-        return("https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_18.jpg");
-        break;
-      case "dirBranch":
-        return("https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_23.jpg");
-        break;
-      case "dirDivision":
-        return("https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_24.jpg");
-        break;
-      case "rbu":
-        return("https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_2.jpg");
-        break;
-      default:
-        return("");
-    }
-    
-  }
  
 
   useEffect(() => {
-    const _resData = usersInitial.map(
-      ({ id, cat, firstName, lastName, username,email,createdAt,updatedAt,avatarUrl }) => ({ id, cat:i18next.t(cat), firstName, lastName, username,email,createdAt:fDate(createdAt),updatedAt:fDate(updatedAt),avatarUrl:handleSwitchAvatarUrl(cat)}));
+    const _resData = aorsInitial.map(
+      ({ id, lib, type, customer, sector, cat, localisation, tjm, referent, referentCustomer, proba, statut, echeance, duree, createdAt, updatedAt }) => ({ id, lib, type, customer, sector, cat, localisation, tjm, referent, referentCustomer, proba, statut, echeance:fDate(echeance), duree, createdAt:fDate(createdAt),updatedAt:fDate(updatedAt)}));
     setTableData(_resData);
     const excelData = _resData.map(obj => {
       const { [Object.keys(obj).pop()]: prop, ...rest } = obj;
@@ -191,13 +297,12 @@ export default function UserListPage() {
 
     let seriesTab = [];
     let kpis = {
-      total: 5,
+      total: 272,
       cats: [
-        {cat: 'admin', count: 1},
-        {cat: 'dirGeneral', count: 1},
-        {cat: 'dirBranch', count: 1},
-        {cat: 'dirDivision', count: 1},
-        {cat: 'rbu', count: 1}
+        {cat: 'AT', count: 204},
+        {cat: 'WorkPackage', count: 68},
+        {cat: 'Publique', count: 147},
+        {cat: 'Privé', count: 125},
       ]
     }
     setSeriesKPITotal(kpis.total);
@@ -205,34 +310,6 @@ export default function UserListPage() {
       seriesTab.push({label: i18next.t(element.cat), value: element.count})
     });
     setSeriesKPI(seriesTab);
-    /*userService.getAllUsers().then(
-        res => {
-            handleSwitchAvatarUrl(res.data.cat)
-            const _resData = res.data.map(
-              ({ id, cat, firstName, laastName, username,email,createdAt,updatedAt,avatarUrl }) => ({ id, cat:i18next.t(cat.toLowerCase()), firstName, laastName, username,email,createdAt:fDate(createdAt),updatedAt:fDate(updatedAt),avatarUrl:handleSwitchAvatarUrl(cat)}));
-            setTableData(_resData);
-            const excelData = _resData.map(obj => {
-              const { [Object.keys(obj).pop()]: prop, ...rest } = obj;
-              return rest;
-            });
-            setExportData(excelData)
-        }
-    ).catch(err => {
-        console.log(err);
-    })
-    //set values for KPIs
-    userService.getUsersKPI().then(
-      res => {
-        let seriesTab = [];
-        setSeriesKPITotal(res.data.total);
-        res.data.cats.forEach(element => {
-          seriesTab.push({label: i18next.t(element.cat.toLowerCase()), value: element.count})
-        });
-        setSeriesKPI(seriesTab);
-      }
-    ).catch(err => {
-        console.log(err);
-    })*/
 
   }, []);
 
@@ -340,7 +417,7 @@ export default function UserListPage() {
   };
 
   const handleDeleteRow = (id) => {
-    userService.deleteUser(id)
+    userService.deleteAor(id)
         .then(res => {
             // Mise à jour du state pour affichage
             setTableData((current) => current.filter(user => user.id !== id))
@@ -377,7 +454,7 @@ export default function UserListPage() {
   }
 
   const handleEditRow = (id) => {
-    navigate(PATH_DASHBOARD.user.edit(paramCase(id.toString())));
+    navigate(PATH_DASHBOARD.aor.edit(paramCase(id.toString())));
   };
 
   const handleResetFilter = () => {
@@ -407,73 +484,6 @@ export default function UserListPage() {
     <>
       <LoadingScreen isLoading={showLoading}/>
       <Container maxWidth={themeStretch ? false : 'xl'}>
-        <CustomBreadcrumbs
-          heading={i18next.t('usersList')}
-          links={[
-            { name: i18next.t('settings')},
-            { name: i18next.t('usersList') },
-          ]}
-          action={
-            <Button
-              component={RouterLink}
-              to={PATH_DASHBOARD.user.new}
-              variant="contained"
-              startIcon={<Iconify icon="eva:plus-fill" />}
-            >
-              {i18next.t('newUser')}
-            </Button>
-          }
-        />
-
-        <Stack
-          direction="row"
-        >
-          <Card sx={{ mb: 5, py: 2, mr: 2, minWidth:'20%' }}>
-            <AnalyticsCount
-              title="Total"
-              total={seriesKpiTotal}
-              percent={100}
-              unity={(seriesKpiTotal>1)?i18next.t('users'):i18next.t('user')}
-              icon="ic:round-people-alt"
-              color={theme.palette.kpi[0]} 
-            />
-          </Card>
-        </Stack>
-
-        <Card sx={{ mb: 5, minWidth:'78%' }}>
-              <Stack
-                direction="row"
-                divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
-                sx={{ py: 2 }}
-              >
-                {seriesKpi.map((serie, index) => {
-                  //define avatar
-                  let srcAvatar = '';
-                  if(serie.label == 'Administrateur'){
-                    srcAvatar="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_11.jpg";
-                  } else if(serie.label == 'Directeur Général'){
-                    srcAvatar="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_18.jpg";
-                  } else if(serie.label == 'Directeur Branche'){
-                    srcAvatar="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_23.jpg";
-                  } else if(serie.label == 'Directeur Pole'){
-                    srcAvatar="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_24.jpg";
-                  } else if(serie.label == 'RBU'){
-                    srcAvatar="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_2.jpg";
-                  }
-
-                  let colors=theme.palette.kpi;
-                  return (<AnalyticsCount
-                    title={serie.label}
-                    total={(serie.value!='')?serie.value:'0'}
-                    percent={(serie.value/seriesKpiTotal)*100}
-                    unity={(serie.value!='' && serie.value!='1')?i18next.t('users'):i18next.t('user')}
-                    avatar={srcAvatar}
-                    color={colors[index+1]}
-                  />)
-                })}
-        
-              </Stack>
-          </Card>
         <Card>
           <Tabs
             value={filterStatus}
@@ -490,7 +500,7 @@ export default function UserListPage() {
 
           <Divider />
 
-          <UserTableToolbar
+          <AorTableToolbar
             isFiltered={isFiltered}
             filterSearch={filterSearch}
             filterRole={filterRole}
@@ -526,7 +536,6 @@ export default function UserListPage() {
                 </Tooltip>
               }
             />
-
             <Scrollbar>
               <Table size={dense ? 'small' : 'medium'} sx={{ minWidth: 800 }}>
                 <TableHeadCustom
@@ -548,7 +557,7 @@ export default function UserListPage() {
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <UserTableRow
+                      <AorTableRow
                         key={row.id}
                         row={row}
                         selected={selected.includes(row.id)}
@@ -556,7 +565,6 @@ export default function UserListPage() {
                         onDeleteRow={() => handleDeleteRow(row.id)}
                         onEditRow={() => {handleEditRow(row.id)}}
                         selectedColumns={columnVisibility}
-                        avatarUrl={avatarUrl}
                       />
                     ))}
 
@@ -626,33 +634,39 @@ function applyFilter({ inputData, comparator, filterSearch, filterRole, filterFi
 
   if (filterSearch) {
     inputData = inputData.filter(
-      (user) => {
-        let email = (user.email)?user.email:'';
-        return user.id.toString().indexOf(filterSearch) !== -1 ||
-        user.cat.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
-        user.firstName.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
-        user.lastName.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
-        user.username.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
-        email.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
-        fDate(user.createdAt).toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
-        fDate(user.updatedAt).toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1
+      (aor) => {
+        return aor.id.toString().indexOf(filterSearch) !== -1 ||
+        aor.lib.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        aor.type.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        aor.customer.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        aor.sector.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        aor.cat.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        aor.tjm.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        aor.referent.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        aor.referentCustomer.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        aor.proba.toString().toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        aor.statut.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        fDate(aor.echeance).toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        fDate(aor.duree).toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        fDate(aor.createdAt).toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        fDate(aor.updatedAt).toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1
       }
     );
   }
 
   if (filterRole !== 'all') {
-    inputData = inputData.filter((user) => user.cat === i18next.t(filterRole));
+    inputData = inputData.filter((aor) => aor.cat === i18next.t(filterRole));
   }
 
   if(filterFirstDate) {
     inputData = inputData.filter(
-      (user) => new Date(user.createdAt) >= new Date(filterFirstDate)
+      (aor) => new Date(aor.createdAt) >= new Date(filterFirstDate)
     );
   }
 
   if(filterLastDate) {
     inputData = inputData.filter(
-      (user) => new Date(user.createdAt) <= new Date((new Date(filterLastDate)).valueOf() + 1000*3600*24)
+      (aor) => new Date(aor.createdAt) <= new Date((new Date(filterLastDate)).valueOf() + 1000*3600*24)
     );
   }
 

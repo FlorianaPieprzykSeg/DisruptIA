@@ -9,12 +9,8 @@ const fr = {
   //MENU
   general: 'Général',
   dashboard: 'Dashboard',
-  loadPlans: 'Plans de Charge',
-  management: 'Management',
-  branchs: 'Branches',
-  divisions: 'Poles',
-  businessUnits: 'Business Units',
-  collaboraters: 'Collaborateurs',
+  aors: 'Appels d\'offres',
+  databases: 'Base de données',
   settings: 'Paramètres',
   users: 'Utilisateurs',
 
@@ -86,11 +82,18 @@ const fr = {
   excelName: 'Données utilisateurs',
 
   //USERS CATEGORY
-  admin: 'Administrateur',
-  dirGeneral: 'Directeur Général',
-  dirBranch: 'Directeur Branche',
-  dirDivision: 'Directeur Pole',
-  rbu: 'RBU'
+  admin: 'Administrator',
+  dirGeneral: 'Chargé d\'affaires',
+  dirBranch: 'Expert',
+  dirDivision: 'Recruteur',
+  rbu: 'RBU',
+
+  //USERS
+  aor: 'RAO',
+  aorsList: 'Liste des RAOs',
+  newAor: 'Nouveau RAO',
+  createAor: 'Créer un nouveau RAO',
+  editAor: 'Modifier un RAO',
 
 };
 

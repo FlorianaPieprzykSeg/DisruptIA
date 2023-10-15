@@ -27,7 +27,7 @@ UserNewEditForm.propTypes = {
 };
 
 export default function UserNewEditForm({ isEdit = false, currentUser }) {
-  const categories = ['admin','dirGeneral','dirBranch','dirPole','rbu'];
+  const categories = ['admin','dirGeneral','dirBranch','dirDivision','rbu'];
   const [ usernameApiError, setUsernameApiError ] = useState(null);
   const [ passwordRepeatApiError, setPasswordRepeatApiError ] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -93,7 +93,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
     setUsernameApiError(null);
     setPasswordRepeatApiError(null);
     navigate(PATH_DASHBOARD.user.list)
-    enqueueSnackbar('No User added because no back!...But it works ^^');
+    enqueueSnackbar('Nouvel Utilisateur ajouté avec succès!');
     /*try {
       if (isEdit && currentUser) {
         //updata method needs user id

@@ -9,12 +9,8 @@ const en = {
   //MENU
   general: 'General',
   dashboard: 'Dashboard',
-  loadPlans: 'Load Plan',
-  management: 'Management',
-  branchs: 'Branchs',
-  divisions: 'Divisions',
-  businessUnits: 'Business Units',
-  collaboraters: 'Collaboraters',
+  aors: 'Appels d\'offres',
+  databases: 'Databases',
   settings: 'Settings',
   users: 'Users',
 
@@ -86,10 +82,17 @@ const en = {
 
   //USERS CATEGORY
   admin: 'Administrator',
-  dirGeneral: 'General Director',
-  dirBranch: 'Branch Director',
-  dirDivision: 'Division Director',
-  rbu: 'RBU'
+  dirGeneral: 'Chargé d\'affaires',
+  dirBranch: 'Expert',
+  dirDivision: 'Recruteur',
+  rbu: 'RBU',
+
+  //USERS
+  aor: 'Aor',
+  aorsList: 'Aors List',
+  newAor: 'New Aor',
+  createAor: 'Create new aor',
+  editAor: 'Edit a aor',
 };
 
 export default en;

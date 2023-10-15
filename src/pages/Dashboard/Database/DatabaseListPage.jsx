@@ -24,7 +24,6 @@ import { PATH_DASHBOARD } from '../../../routes/paths';
 
 // components
 import Iconify from '../../../components/iconify';
-import Scrollbar from '../../../components/scrollbar';
 import ConfirmDialog from '../../../components/confirm-dialog';
 import CustomBreadcrumbs from '../../../components/custom-breadcrumbs';
 import { useSettingsContext } from '../../../components/settings';
@@ -39,7 +38,7 @@ import {
   TablePaginationCustom,
 } from '../../../components/table';
 // sections
-import { UserTableToolbar, UserTableRow } from '../../../sections/dashboard/user/list';
+import { DatabaseTableToolbar, DatabaseTableRow } from '../../../sections/dashboard/database/list';
 import { fDate } from '../../../utils/formatTime';
 import i18next from 'i18next';
 import { Stack } from '@mui/system';
@@ -50,87 +49,87 @@ import { getConfigColumnFromList, setConfigColumnFromList } from '../../../utils
 import LoadingScreen from '../../../components/loading-screen/LoadingScreen';
 
 // ----------------------------------------------------------------------
-const LIST_ID = 'user';
+const LIST_ID = 'database';
 
 const STATUS_OPTIONS = ['all'];
 
 const ROLE_OPTIONS = [
-  'all',
-  'admin',
-  'dirGeneral',
-  'dirBranch',
-  'dirDivision',
-  'rbu'
+  'all'
 ];
 
 const TABLE_HEAD = [
   { id: 'id', label: i18next.t('id'), align: 'left' },
+  { id: 'lib', label: "Libellé", align: 'left' },
+  { id: 'customer', label: "Client", align: 'left' },
+  { id: 'sector', label: "Secteur", align: 'left' },
   { id: 'cat', label: i18next.t('cat'), align: 'left' },
-  { id: 'firstName', label: i18next.t('firstName'), align: 'left' },
-  { id: 'lastName', label: i18next.t('lastName'), align: 'left' },
-  { id: 'username', label: i18next.t('username'), align: 'left' },
-  { id: 'email', label: i18next.t('email'), align: 'left' },
+  { id: 'result', label: "Resultat", align: 'left' },
+  { id: 'referent', label: "Referent", align: 'left' },
   { id: 'createdAt', label: i18next.t('createdAt'), align: 'left' },
   { id: 'updatedAt', label: i18next.t('updatedAt'), align: 'left' },
-  { id: 'actions' , label: ''},
 ];
 
 const excelTableHead = [i18next.t('id'), i18next.t('cat'), i18next.t('firstName'), i18next.t('lastName'), i18next.t('username'), i18next.t('email'), i18next.t('createdAt'), i18next.t('updatedAt'), ' ']
 const excelFileName = i18next.t('excelName')
 
-const usersInitial = [
+const databasesInitial = [
   {
     id: 1,
-    cat: 'admin',
-    firstName: 'Segula',
-    lastName: 'Team',
-    username: 'Segula_Team',
-    password: 'Segula_Team',
-    email: 'Segula_Team@Segula.team',
+    lib: 'Managements des tests de roulage',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.',
+    customer: 'Stellantis',
+    sector: 'Automobile',
+    cat: 'Developpement Software',
+    result: 'Perdu',
+    referent: 'Pierre Guizard',
     createdAt: '2022-08-23T16:50:22-07:00',
     updatedAt: '2022-08-23T16:50:22-07:00'
   },
   {
     id: 2,
-    cat: 'dirGeneral',
-    firstName: 'Director',
-    lastName: 'General',
-    username: 'director_General',
-    password: 'director_General',
-    email: 'director_General@director.general',
+    lib: 'Digitalisation des guides de maintenance des trains',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.',
+    customer: 'Alstom',
+    sector: 'Ferroviaire',
+    cat: 'Developpement Software',
+    result: 'Gagné',
+    referent: 'Julien Fouth',
+    createdAt: '2022-08-23T16:50:22-07:00',
+    updatedAt: '2022-08-23T16:50:22-07:00'
+  },
+  {
+    id: 3,
+    lib: 'Visualisation d\'un conteneur d\'odorisation du gaz',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.',
+    customer: 'GRDF',
+    sector: 'Energie',
+    cat: 'Developpement Software',
+    result: 'Gagné',
+    referent: 'Arnaud Barillec',
     createdAt: '2022-08-23T16:50:22-07:00',
     updatedAt: '2022-08-23T16:50:22-07:00'
   },
   {
     id: 4,
-    cat: 'dirBranch',
-    firstName: 'Director',
-    lastName: 'Branch',
-    username: 'director_Branch',
-    password: 'director_Branch',
-    email: 'director_Branch@director.branch',
+    lib: 'Suivi de la maintenance des hélicoptères',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.',
+    customer: 'Airbus',
+    sector: 'Aéronautique',
+    cat: 'Developpement Software',
+    result: 'Gagné',
+    referent: 'Pierre Guizard',
     createdAt: '2022-08-23T16:50:22-07:00',
     updatedAt: '2022-08-23T16:50:22-07:00'
   },
   {
     id: 5,
-    cat: 'dirDivision',
-    firstName: 'Director',
-    lastName: 'Pole',
-    username: 'director_Pole',
-    password: 'director_Pole',
-    email: 'director_Pole@director.pole',
-    createdAt: '2022-08-23T16:50:22-07:00',
-    updatedAt: '2022-08-23T16:50:22-07:00'
-  },
-  {
-    id: 6,
-    cat: 'rbu',
-    firstName: 'RBU',
-    lastName: 'RBU',
-    username: 'rbu',
-    password: 'rbu',
-    email: 'rbu@rbu.rbu',
+    lib: 'Connectivités des voitures autonomes',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.',
+    customer: 'Stellantis',
+    sector: 'Automobile',
+    cat: 'Developpement Software Embarqué',
+    result: 'Gagné',
+    referent: 'Pierre Guizard',
     createdAt: '2022-08-23T16:50:22-07:00',
     updatedAt: '2022-08-23T16:50:22-07:00'
   },
@@ -138,7 +137,7 @@ const usersInitial = [
 
 // ----------------------------------------------------------------------
 
-export default function UserListPage() {
+export default function DatabaseListPage() {
 
   const { user } = useAuthContext();
 
@@ -149,39 +148,15 @@ export default function UserListPage() {
   const [exportData, setExportData] = useState([]);
   const [seriesKpi, setSeriesKPI] = useState([]);
   const [seriesKpiTotal, setSeriesKPITotal] = useState(0);
-  const [users, setUsers] = useState([]);
+  const [databases, setDatabases] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState(columnConfig);
   const [isShowColumnFilter, setIsShowColumnFilter] = useState(false);
   const [showLoading, setShowLoading] = useState(true);
-  const [avatarUrl, setAvatarUrl] = useState('');
-
-  const handleSwitchAvatarUrl = (cat)=> {
-    switch(cat) {
-      case "admin":
-        return("https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_11.jpg");
-        break;
-      case "dirGeneral":
-        return("https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_18.jpg");
-        break;
-      case "dirBranch":
-        return("https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_23.jpg");
-        break;
-      case "dirDivision":
-        return("https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_24.jpg");
-        break;
-      case "rbu":
-        return("https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_2.jpg");
-        break;
-      default:
-        return("");
-    }
-    
-  }
  
 
   useEffect(() => {
-    const _resData = usersInitial.map(
-      ({ id, cat, firstName, lastName, username,email,createdAt,updatedAt,avatarUrl }) => ({ id, cat:i18next.t(cat), firstName, lastName, username,email,createdAt:fDate(createdAt),updatedAt:fDate(updatedAt),avatarUrl:handleSwitchAvatarUrl(cat)}));
+    const _resData = databasesInitial.map(
+      ({ id, lib, customer, sector, cat, result, referent, createdAt, updatedAt }) => ({ id, lib, customer, sector, cat, result, referent, createdAt:fDate(createdAt),updatedAt:fDate(updatedAt)}));
     setTableData(_resData);
     const excelData = _resData.map(obj => {
       const { [Object.keys(obj).pop()]: prop, ...rest } = obj;
@@ -191,13 +166,12 @@ export default function UserListPage() {
 
     let seriesTab = [];
     let kpis = {
-      total: 5,
+      total: 241,
       cats: [
-        {cat: 'admin', count: 1},
-        {cat: 'dirGeneral', count: 1},
-        {cat: 'dirBranch', count: 1},
-        {cat: 'dirDivision', count: 1},
-        {cat: 'rbu', count: 1}
+        {cat: 'Automobile', count: 150},
+        {cat: 'Aéronautique', count: 27},
+        {cat: 'Ferroviaire', count: 4},
+        {cat: 'Energie', count: 60},
       ]
     }
     setSeriesKPITotal(kpis.total);
@@ -205,34 +179,6 @@ export default function UserListPage() {
       seriesTab.push({label: i18next.t(element.cat), value: element.count})
     });
     setSeriesKPI(seriesTab);
-    /*userService.getAllUsers().then(
-        res => {
-            handleSwitchAvatarUrl(res.data.cat)
-            const _resData = res.data.map(
-              ({ id, cat, firstName, laastName, username,email,createdAt,updatedAt,avatarUrl }) => ({ id, cat:i18next.t(cat.toLowerCase()), firstName, laastName, username,email,createdAt:fDate(createdAt),updatedAt:fDate(updatedAt),avatarUrl:handleSwitchAvatarUrl(cat)}));
-            setTableData(_resData);
-            const excelData = _resData.map(obj => {
-              const { [Object.keys(obj).pop()]: prop, ...rest } = obj;
-              return rest;
-            });
-            setExportData(excelData)
-        }
-    ).catch(err => {
-        console.log(err);
-    })
-    //set values for KPIs
-    userService.getUsersKPI().then(
-      res => {
-        let seriesTab = [];
-        setSeriesKPITotal(res.data.total);
-        res.data.cats.forEach(element => {
-          seriesTab.push({label: i18next.t(element.cat.toLowerCase()), value: element.count})
-        });
-        setSeriesKPI(seriesTab);
-      }
-    ).catch(err => {
-        console.log(err);
-    })*/
 
   }, []);
 
@@ -340,7 +286,7 @@ export default function UserListPage() {
   };
 
   const handleDeleteRow = (id) => {
-    userService.deleteUser(id)
+    userService.deleteDatabase(id)
         .then(res => {
             // Mise à jour du state pour affichage
             setTableData((current) => current.filter(user => user.id !== id))
@@ -377,7 +323,7 @@ export default function UserListPage() {
   }
 
   const handleEditRow = (id) => {
-    navigate(PATH_DASHBOARD.user.edit(paramCase(id.toString())));
+    navigate(PATH_DASHBOARD.database.edit(paramCase(id.toString())));
   };
 
   const handleResetFilter = () => {
@@ -408,21 +354,11 @@ export default function UserListPage() {
       <LoadingScreen isLoading={showLoading}/>
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <CustomBreadcrumbs
-          heading={i18next.t('usersList')}
+          heading={"Base de données"}
           links={[
-            { name: i18next.t('settings')},
-            { name: i18next.t('usersList') },
+            { name: i18next.t('general')},
+            { name: "Base de données" },
           ]}
-          action={
-            <Button
-              component={RouterLink}
-              to={PATH_DASHBOARD.user.new}
-              variant="contained"
-              startIcon={<Iconify icon="eva:plus-fill" />}
-            >
-              {i18next.t('newUser')}
-            </Button>
-          }
         />
 
         <Stack
@@ -433,47 +369,31 @@ export default function UserListPage() {
               title="Total"
               total={seriesKpiTotal}
               percent={100}
-              unity={(seriesKpiTotal>1)?i18next.t('users'):i18next.t('user')}
+              unity={(seriesKpiTotal>1)?"Projets":"Projet"}
               icon="ic:round-people-alt"
               color={theme.palette.kpi[0]} 
             />
           </Card>
-        </Stack>
-
-        <Card sx={{ mb: 5, minWidth:'78%' }}>
+          <Card sx={{ mb: 5, minWidth:'78%' }}>
               <Stack
                 direction="row"
                 divider={<Divider orientation="vertical" flexItem sx={{ borderStyle: 'dashed' }} />}
                 sx={{ py: 2 }}
               >
                 {seriesKpi.map((serie, index) => {
-                  //define avatar
-                  let srcAvatar = '';
-                  if(serie.label == 'Administrateur'){
-                    srcAvatar="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_11.jpg";
-                  } else if(serie.label == 'Directeur Général'){
-                    srcAvatar="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_18.jpg";
-                  } else if(serie.label == 'Directeur Branche'){
-                    srcAvatar="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_23.jpg";
-                  } else if(serie.label == 'Directeur Pole'){
-                    srcAvatar="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_24.jpg";
-                  } else if(serie.label == 'RBU'){
-                    srcAvatar="https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_2.jpg";
-                  }
-
                   let colors=theme.palette.kpi;
                   return (<AnalyticsCount
                     title={serie.label}
                     total={(serie.value!='')?serie.value:'0'}
                     percent={(serie.value/seriesKpiTotal)*100}
-                    unity={(serie.value!='' && serie.value!='1')?i18next.t('users'):i18next.t('user')}
-                    avatar={srcAvatar}
+                    unity={(serie.value!='' && serie.value!='1')?"Projets":"Projet"}
                     color={colors[index+1]}
                   />)
                 })}
         
               </Stack>
           </Card>
+        </Stack>
         <Card>
           <Tabs
             value={filterStatus}
@@ -490,7 +410,7 @@ export default function UserListPage() {
 
           <Divider />
 
-          <UserTableToolbar
+          <DatabaseTableToolbar
             isFiltered={isFiltered}
             filterSearch={filterSearch}
             filterRole={filterRole}
@@ -526,8 +446,6 @@ export default function UserListPage() {
                 </Tooltip>
               }
             />
-
-            <Scrollbar>
               <Table size={dense ? 'small' : 'medium'} sx={{ minWidth: 800 }}>
                 <TableHeadCustom
                   order={order}
@@ -548,7 +466,7 @@ export default function UserListPage() {
                   {dataFiltered
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <UserTableRow
+                      <DatabaseTableRow
                         key={row.id}
                         row={row}
                         selected={selected.includes(row.id)}
@@ -556,7 +474,6 @@ export default function UserListPage() {
                         onDeleteRow={() => handleDeleteRow(row.id)}
                         onEditRow={() => {handleEditRow(row.id)}}
                         selectedColumns={columnVisibility}
-                        avatarUrl={avatarUrl}
                       />
                     ))}
 
@@ -568,7 +485,6 @@ export default function UserListPage() {
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody>
               </Table>
-            </Scrollbar>
           </TableContainer>
 
           <TablePaginationCustom
@@ -626,33 +542,33 @@ function applyFilter({ inputData, comparator, filterSearch, filterRole, filterFi
 
   if (filterSearch) {
     inputData = inputData.filter(
-      (user) => {
-        let email = (user.email)?user.email:'';
-        return user.id.toString().indexOf(filterSearch) !== -1 ||
-        user.cat.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
-        user.firstName.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
-        user.lastName.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
-        user.username.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
-        email.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
-        fDate(user.createdAt).toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
-        fDate(user.updatedAt).toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1
+      (database) => {
+        return database.id.toString().indexOf(filterSearch) !== -1 ||
+        database.lib.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        database.customer.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        database.sector.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        database.cat.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        database.result.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        database.referent.toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        fDate(database.createdAt).toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1 ||
+        fDate(database.updatedAt).toLowerCase().indexOf(filterSearch.toLowerCase()) !== -1
       }
     );
   }
 
   if (filterRole !== 'all') {
-    inputData = inputData.filter((user) => user.cat === i18next.t(filterRole));
+    inputData = inputData.filter((database) => database.cat === i18next.t(filterRole));
   }
 
   if(filterFirstDate) {
     inputData = inputData.filter(
-      (user) => new Date(user.createdAt) >= new Date(filterFirstDate)
+      (database) => new Date(database.createdAt) >= new Date(filterFirstDate)
     );
   }
 
   if(filterLastDate) {
     inputData = inputData.filter(
-      (user) => new Date(user.createdAt) <= new Date((new Date(filterLastDate)).valueOf() + 1000*3600*24)
+      (database) => new Date(database.createdAt) <= new Date((new Date(filterLastDate)).valueOf() + 1000*3600*24)
     );
   }
 

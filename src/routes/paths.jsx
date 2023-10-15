@@ -25,17 +25,17 @@ export const PATH_AUTH = {
       account: path(ROOTS_DASHBOARD, '/account'),
       edit: (name) => path(ROOTS_DASHBOARD, `/user/${name}/edit`),
     },
-    newElement1: {
-      root: path(ROOTS_DASHBOARD, '/newElement1'),
-      new: path(ROOTS_DASHBOARD, '/newElement1/new'),
-      list: path(ROOTS_DASHBOARD, '/newElement1/list'),
-      edit: (name) => path(ROOTS_DASHBOARD, `/newElement1/${name}/edit`),
+    aor: {
+      root: path(ROOTS_DASHBOARD, '/aor'),
+      new: path(ROOTS_DASHBOARD, '/aor/new'),
+      list: path(ROOTS_DASHBOARD, '/aor/list'),
+      edit: (name) => path(ROOTS_DASHBOARD, `/aor/${name}/edit`),
     },
-    newElement2: {
-      root: path(ROOTS_DASHBOARD, '/newElement2'),
-      new: path(ROOTS_DASHBOARD, '/newElement2/new'),
-      list: path(ROOTS_DASHBOARD, '/newElement2/list'),
-      edit: (name) => path(ROOTS_DASHBOARD, `/newElement2/${name}/edit`),
+    database: {
+      root: path(ROOTS_DASHBOARD, '/database'),
+      new: path(ROOTS_DASHBOARD, '/database/new'),
+      list: path(ROOTS_DASHBOARD, '/database/list'),
+      edit: (name) => path(ROOTS_DASHBOARD, `/database/${name}/edit`),
     },
  }
 
