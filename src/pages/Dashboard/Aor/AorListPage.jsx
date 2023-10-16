@@ -48,6 +48,7 @@ import { useAuthContext } from '../../../auth/useAuthContext';
 import { getConfigColumnFromList, setConfigColumnFromList } from '../../../utils/userTools';
 import LoadingScreen from '../../../components/loading-screen/LoadingScreen';
 import Scrollbar from '../../../components/scrollbar/Scrollbar';
+import { enqueueSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
 const LIST_ID = 'aor';
@@ -454,7 +455,8 @@ export default function AorListPage() {
   }
 
   const handleEditRow = (id) => {
-    navigate(PATH_DASHBOARD.aor.edit(paramCase(id.toString())));
+    //navigate(PATH_DASHBOARD.aor.edit(paramCase(id.toString())));
+    enqueueSnackbar('Vous ne pouvez pas editer les élèments', { variant: 'error' });
   };
 
   const handleResetFilter = () => {

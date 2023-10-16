@@ -21,6 +21,7 @@ import ConfirmDialog from '../../../../components/confirm-dialog';
 import i18next from 'i18next';
 import { CustomAvatar } from '../../../../components/custom-avatar';
 import { Box } from '@mui/system';
+import { useSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
 
@@ -38,6 +39,8 @@ export default function DatabaseTableRow({ row, selected, onEditRow, onSelectRow
   const handleOpenUrl = (docUrl) => {
     window.open(docUrl, "_blank");
   }
+
+  const { enqueueSnackbar } = useSnackbar();
 
   return (
     <>
@@ -60,7 +63,7 @@ export default function DatabaseTableRow({ row, selected, onEditRow, onSelectRow
                   cursor: 'pointer'
                 },
               }}
-              onClick={() => handleOpenUrl('/dashboard/database/'+id+'/edit')}
+              onClick={() => enqueueSnackbar('Vous ne pouvez pas editer les élèments', { variant: 'error' })}
             >
               {lib}
             </Typography>

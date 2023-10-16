@@ -323,7 +323,8 @@ export default function DatabaseListPage() {
   }
 
   const handleEditRow = (id) => {
-    navigate(PATH_DASHBOARD.database.edit(paramCase(id.toString())));
+    //navigate(PATH_DASHBOARD.database.edit(paramCase(id.toString())));
+    enqueueSnackbar('Vous ne pouvez pas editer les élèments', { variant: 'error' });
   };
 
   const handleResetFilter = () => {

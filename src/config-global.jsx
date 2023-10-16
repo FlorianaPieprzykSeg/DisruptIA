@@ -2,7 +2,7 @@
 import { PATH_DASHBOARD } from './routes/paths';
 
 // ROOT PATH AFTER LOGIN SUCCESSFUL
-export const PATH_AFTER_LOGIN = PATH_DASHBOARD.general.app; // as '/dashboard/app'
+export const PATH_AFTER_LOGIN = PATH_DASHBOARD.aor.list; // as '/dashboard/app'
 
 export const HOST_API_KEY = import.meta.env.VITE_REACT_APP_HOST_API_KEY
 

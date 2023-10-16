@@ -48,6 +48,7 @@ import { DialogColumns } from '../../../components/segula-components';
 import { useAuthContext } from '../../../auth/useAuthContext';
 import { getConfigColumnFromList, setConfigColumnFromList } from '../../../utils/userTools';
 import LoadingScreen from '../../../components/loading-screen/LoadingScreen';
+import { useSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
 const LIST_ID = 'user';
@@ -154,6 +155,7 @@ export default function UserListPage() {
   const [isShowColumnFilter, setIsShowColumnFilter] = useState(false);
   const [showLoading, setShowLoading] = useState(true);
   const [avatarUrl, setAvatarUrl] = useState('');
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSwitchAvatarUrl = (cat)=> {
     switch(cat) {
@@ -377,7 +379,8 @@ export default function UserListPage() {
   }
 
   const handleEditRow = (id) => {
-    navigate(PATH_DASHBOARD.user.edit(paramCase(id.toString())));
+    //navigate(PATH_DASHBOARD.user.edit(paramCase(id.toString())));
+    enqueueSnackbar('Vous ne pouvez pas editer les élèments', { variant: 'error' });
   };
 
   const handleResetFilter = () => {

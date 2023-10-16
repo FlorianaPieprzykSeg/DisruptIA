@@ -23,6 +23,7 @@ import ConfirmDialog from '../../../../components/confirm-dialog';
 import i18next from 'i18next';
 import { CustomAvatar } from '../../../../components/custom-avatar';
 import { Box } from '@mui/system';
+import { useSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
 
@@ -62,6 +63,7 @@ export default function AorTableRow({ row, selected, onEditRow, onSelectRow, onD
   }
 
   const theme = useTheme();
+  const { enqueueSnackbar } = useSnackbar();
 
   return (
     <>
@@ -84,7 +86,7 @@ export default function AorTableRow({ row, selected, onEditRow, onSelectRow, onD
                   cursor: 'pointer'
                 },
               }}
-              onClick={() => handleOpenUrl('/dashboard/aor/'+id+'/edit')}
+              onClick={() => enqueueSnackbar('Vous ne pouvez pas editer les élèments', { variant: 'error' })}
             >
               {lib}
             </Typography>

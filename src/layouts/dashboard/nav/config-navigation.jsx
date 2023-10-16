@@ -10,7 +10,6 @@ const icon = (name) => (
 );
 
 const ICONS = {
-  dashboard: icon('ic_dashboard'),
   aor: icon('ic_file'),
   database: icon('ic_file'),
   user: icon('ic_user'),
@@ -22,7 +21,6 @@ const navConfig = [
   {
     subheader: 'general',
     items: [
-      { title: 'dashboard', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
       // New Element
       {
         title: 'appels d\'offres',

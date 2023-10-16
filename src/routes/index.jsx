@@ -59,7 +59,6 @@ export default function Router() {
             children: [
                 { path: 'account', element: <UserAccountEditPage /> },
                 { element: <Navigate to={PATH_AFTER_LOGIN} replace={true} />, index: true },
-                { path: 'app', element: <GeneralAppPage /> },
                 {
                     path: 'aor',
                     children: [
