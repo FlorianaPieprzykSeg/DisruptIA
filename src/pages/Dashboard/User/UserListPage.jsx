@@ -418,8 +418,6 @@ export default function UserListPage() {
           ]}
           action={
             <Button
-              component={RouterLink}
-              to={PATH_DASHBOARD.user.new}
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >

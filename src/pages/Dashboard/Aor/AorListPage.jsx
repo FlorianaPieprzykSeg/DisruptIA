@@ -494,8 +494,6 @@ export default function AorListPage() {
           ]}
           action={
             <Button
-              component={RouterLink}
-              to={PATH_DASHBOARD.aor.new}
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
