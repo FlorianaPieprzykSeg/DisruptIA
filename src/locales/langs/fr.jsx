@@ -91,9 +91,9 @@ const fr = {
   //USERS
   aor: 'RAO',
   aorsList: 'Liste des RAOs',
-  newAor: 'Nouveau RAO',
-  createAor: 'Créer un nouveau RAO',
-  editAor: 'Modifier un RAO',
+  newAor: 'Nouvelle RAO',
+  createAor: 'Créer une nouvelle RAO',
+  editAor: 'Modifier une RAO',
 
 };
 

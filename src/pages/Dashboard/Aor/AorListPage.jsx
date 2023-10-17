@@ -497,7 +497,7 @@ export default function AorListPage() {
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
-              {"Nouveau RAO"}
+              {"Nouvelle RAO"}
             </Button>
           }
         />

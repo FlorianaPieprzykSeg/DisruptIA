@@ -51,7 +51,7 @@ export default function GeneralAppPage() {
       <Grid item xs={12} md={12}>
         <Divider/>
         <Typography textAlign={'center'} variant='h6' sx={{mt:2, mb:2}}>
-          RAOs Gagnés dans l'année :
+          RAOs Gagnées dans l'année :
         </Typography>
         <RaoSimiListPage onlyWon={true}/>
       </Grid>
